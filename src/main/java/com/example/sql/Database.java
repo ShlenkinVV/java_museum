@@ -3,11 +3,11 @@ package com.example.sql;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.*;
 import java.sql.Statement;
 
 import java.sql.*;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
@@ -15,20 +15,22 @@ import java.util.List;
 
 public class Database {
 
-    private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWD = "F54036";
-    private static final String DB_URL = "jdbc:postgresql://localhost:5432/postgres";
-
     Connection connection;
 
     {
         try {
+            File file = new File("C:\\Users\\Владимир\\IdeaProjects\\SQL\\src\\main\\java\\com\\example\\sql\\connection.txt");
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String DB_USERNAME = reader.readLine();
+            String DB_PASSWD = reader.readLine();
+            String DB_URL = reader.readLine();
+
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWD);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public int addEx(String name, String num, String cost){
 
